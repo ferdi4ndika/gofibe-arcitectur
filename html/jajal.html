@@ -1,0 +1,143 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      #plant-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Plant List</h1>
+    <ul id="plant-list"></ul>
+
+    <script>
+      const socket = new WebSocket("ws://localhost:8000/ws");
+
+      socket.addEventListener("message", function (event) {
+        console.log("Message from server:", event.data);
+        const plants = JSON.parse(event.data);
+        const plantList = document.getElementById("plant-list");
+        // Clear existing list
+        plantList.innerHTML = "";
+        // Render received data
+        plants.forEach(function (plant) {
+          const listItem = document.createElement("li");
+          // Format date
+          const createdAt = new Date(plant.date_time).toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            timeZoneName: "short",
+          });
+          listItem.textContent = `ID: ${plant.id}, Information: ${plant.information}, Code: ${plant.code}, Created At: ${createdAt}`;
+          plantList.appendChild(listItem);
+        });
+      });
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      #plant-list {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Plant List</h1>
+    <ul id="plant-list"></ul>
+
+    <script>
+      const socket = new WebSocket("ws://localhost:8080/ws");
+
+      socket.addEventListener("message", function (event) {
+        console.log("Message from server:", event.data);
+        const plants = JSON.parse(event.data);
+        const plantList = document.getElementById("plant-list");
+
+        // Clear existing list
+        plantList.innerHTML = "";
+
+        // Change document title based on plant code
+        if (plants.length > 0) {
+          document.title = "New Notification: " + plants[0].code;
+        }
+
+        // Render received data
+        plants.forEach(function (plant) {
+          const listItem = document.createElement("li");
+
+          // Format date
+          const createdAt = new Date(plant.date_time).toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            timeZoneName: "short",
+          });
+
+          // Set text content
+          listItem.textContent = `Status Machine`;
+
+          // Set color based on plant code
+          if (plant.code === "1") {
+            listItem.style.backgroundColor = "green";
+          } else if (plant.code === "0") {
+            listItem.style.backgroundColor = "red";
+          } else if (plant.code === "2") {
+            listItem.style.backgroundColor = "yellow";
+          } else {
+            listItem.style.backgroundColor = "white"; // Default color
+          }
+
+          plantList.appendChild(listItem);
+        });
+      });
+    </script>
+  </body>
+</html>
